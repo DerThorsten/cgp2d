@@ -26,8 +26,8 @@ void export_cell0vec()
     ////////////////////////////////////////
     // basic types
     // tgrid and input image type
-    typedef TopologicalGrid<LabelType> TopologicalGridType;
-    typedef Cgp<LabelType,CoordinateType> CgpType;
+    typedef Cgp<CoordinateType,LabelType> CgpType;
+    typedef CgpType::TopologicalGridType TopologicalGridType;
 
     typedef  vigra::NumpyArray<2 ,vigra::Singleband < LabelType > > InputLabelImageType;
     // cgp type and cell types

@@ -38,11 +38,25 @@ public:
     typedef typename LabelImageType::difference_type ShapeType;
 
     TopologicalGrid(){
-
+    
     }
+
+    /*
+    TopologicalGrid(const TopologicalGrid<LABEL_TYPE> & labelType){
+        std::cout<<"bla bla 2\n";
+    }
+
+    template<class L>
+    TopologicalGrid(const TopologicalGrid<L> & labelType){
+        std::cout<<"bla bla 1 \n";
+    }
+    */
+
+
+
     // constructor 
     template<class INPUT_IMG>
-    TopologicalGrid(const INPUT_IMG & seg);
+    TopologicalGrid( const INPUT_IMG & seg);
 
     // query
     const LabelImageType & tgrid()const;
@@ -81,6 +95,11 @@ TopologicalGrid<LABEL_TYPE>::TopologicalGrid(const INPUT_IMG & seg)
     const size_t dy=seg.shape(1);
     const size_t tdx=seg.shape(0)*2-1;
     const size_t tdy=seg.shape(1)*2-1;
+
+    //std::cout<<"dx  "<<dx<<"   dy  "<<dy<<" \n";
+    //std::cout<<"tdx "<<tdx<<" tdy  "<<tdy<<" \n";
+
+
     size_t shape[] = { tdx,tdy};
     // counters
     size_t maxRegionLabel=0; //TODO TODO TODO
@@ -94,7 +113,11 @@ TopologicalGrid<LABEL_TYPE>::TopologicalGrid(const INPUT_IMG & seg)
         //std::cout<<" tx "<<tx<<" ty "<<ty<<"\n";
         // if region
         if(tx%2==0 && ty%2==0){
+
+            //std::cout<<"tx "<<tx<<"  ty "<<ty<<"  tx/2 "<<tx/2<<" ty/2 "<<ty/2<<" \n";
+            //std::cout<< seg(tx/2,ty/2) <<"\n";
             size_t label=seg(tx/2,ty/2);
+            CGP_ASSERT_OP(label,>,0);
             tgrid_(tx,ty)=label;
             maxRegionLabel=label>maxRegionLabel ? label : maxRegionLabel;
         }
