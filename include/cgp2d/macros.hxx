@@ -1,6 +1,8 @@
 #ifndef CGP2D_MACROS_HXX
 #define CGP2D_MACROS_HXX
 
+#include <sstream>
+
 #define CGP_ASSERT_OP(a,comp,b) \
     if(!  static_cast<bool>( a comp b )   ) { \
        std::stringstream s; \

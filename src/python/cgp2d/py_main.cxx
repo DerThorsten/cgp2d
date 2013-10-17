@@ -5,13 +5,13 @@
 #include <vigra/numpy_array_converters.hxx>
 
 
-#include "py_cell0.hxx"
-#include "py_cell1.hxx"
-#include "py_cell2.hxx"
+#include "cells/py_cell0.hxx"
+#include "cells/py_cell1.hxx"
+#include "cells/py_cell2.hxx"
 
-#include "py_cell0vec.hxx"
-#include "py_cell1vec.hxx"
-#include "py_cell2vec.hxx"
+#include "cells/py_cell0vec.hxx"
+#include "cells/py_cell1vec.hxx"
+#include "cells/py_cell2vec.hxx"
 
 #include "py_cgp2d.hxx"
 

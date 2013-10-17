@@ -18,8 +18,8 @@
 #include <vigra/multi_array.hxx>
 
 /* opengm */
-#include "opengm/config.hxx"
-#include "opengm/utilities/metaprogramming.hxx"
+//#include "opengm/config.hxx"
+//#include "opengm/utilities/metaprogramming.hxx"
 
 /* this project */
 #include "partition.hxx"

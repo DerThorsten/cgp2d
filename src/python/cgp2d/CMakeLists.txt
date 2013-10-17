@@ -5,13 +5,13 @@ include_directories(
 
 
 add_library(_cgp2d SHARED
+    cells/py_cell0.cxx
+    cells/py_cell1.cxx
+    cells/py_cell2.cxx
+    cells/py_cell0vec.cxx
+    cells/py_cell1vec.cxx
+    cells/py_cell2vec.cxx
     py_cgp2d.cxx
-    py_cell0.cxx
-    py_cell1.cxx
-    py_cell2.cxx
-    py_cell0vec.cxx
-    py_cell1vec.cxx
-    py_cell2vec.cxx
     py_main.cxx
 )
 target_link_libraries(_cgp2d
