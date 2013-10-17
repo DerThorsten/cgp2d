@@ -21,7 +21,7 @@
 #include <vigra/numpy_array_converters.hxx>
 
 #include "cgp2d.hxx"
-
+#include "cgp2d_python.hxx"
 
 namespace python = boost::python;
 
@@ -77,10 +77,10 @@ vigra::NumpyAnyArray  countMultiEdges(
 
     typedef vigra::NumpyArray<1,float>  ResultArray;
     typedef typename ResultArray::difference_type ShapeType;
-    typedef typename CGP::GeoCells1 Cells1;
-    typedef typename CGP::GeoCell1  Cell1;
-    typedef typename CGP::GeoCells2 Cells2;
-    typedef typename CGP::GeoCell2  Cell2;
+    typedef typename CGP::Cells1 Cells1;
+    typedef typename CGP::Cell1  Cell1;
+    typedef typename CGP::Cells2 Cells2;
+    typedef typename CGP::Cell2  Cell2;
 
 
     typedef typename CGP::CellAdjacencyGraphVectorType CellAdjGraph;
@@ -143,10 +143,10 @@ vigra::NumpyAnyArray  cell1TopoFeatures(
 
     typedef vigra::NumpyArray<2,float>  ResultArray;
     typedef typename ResultArray::difference_type ShapeType;
-    typedef typename CGP::GeoCells1 Cells1;
-    typedef typename CGP::GeoCell1  Cell1;
-    typedef typename CGP::GeoCells2 Cells2;
-    typedef typename CGP::GeoCell2  Cell2;
+    typedef typename CGP::Cells1 Cells1;
+    typedef typename CGP::Cell1  Cell1;
+    typedef typename CGP::Cells2 Cells2;
+    typedef typename CGP::Cell2  Cell2;
 
 
     typedef typename CGP::CellAdjacencyGraphVectorType CellAdjGraph;
@@ -202,10 +202,10 @@ vigra::NumpyAnyArray  cell1GeoFeatures(
 
     typedef vigra::NumpyArray<2,float>  ResultArray;
     typedef typename ResultArray::difference_type ShapeType;
-    typedef typename CGP::GeoCells1 Cells1;
-    typedef typename CGP::GeoCell1  Cell1;
-    typedef typename CGP::GeoCells2 Cells2;
-    typedef typename CGP::GeoCell2  Cell2;
+    typedef typename CGP::Cells1 Cells1;
+    typedef typename CGP::Cell1  Cell1;
+    typedef typename CGP::Cells2 Cells2;
+    typedef typename CGP::Cell2  Cell2;
     typedef typename Cell1::FloatPointType FloatPointType;
     typedef typename Cell1::PointType PointType;
     typedef std::pair<PointType,PointType> BouningBoxType;
@@ -291,8 +291,8 @@ vigra::NumpyAnyArray  relativeCenterDist(
 
     typedef vigra::NumpyArray<1,float>  ResultArray;
     typedef typename ResultArray::difference_type ShapeType;
-    typedef typename CGP::GeoCells1 Cells1;
-    typedef typename CGP::GeoCell1 Cell1;
+    typedef typename CGP::Cells1 Cells1;
+    typedef typename CGP::Cell1 Cell1;
     typedef typename Cell1::FloatPointType FloatPointType;
     const size_t numBoundaries = cgp.numCells(1);
     const Cells1 & cells1=cgp.geometry1();
@@ -327,8 +327,8 @@ vigra::NumpyAnyArray  boarderTouch(
 
     typedef vigra::NumpyArray<1,float>  ResultArray;
     typedef typename ResultArray::difference_type ShapeType;
-    typedef typename CGP::GeoCells1 Cells1;
-    typedef typename CGP::GeoCell1 Cell1;
+    typedef typename CGP::Cells1 Cells1;
+    typedef typename CGP::Cell1 Cell1;
 
     const size_t numBoundaries = cgp.numCells(1);
     const Cells1 & cells1=cgp.geometry1();
@@ -388,10 +388,10 @@ vigra::NumpyAnyArray  cell1GraphStealing(
 
     typedef vigra::NumpyArray<1,float>  ResultArray;
     typedef typename ResultArray::difference_type ShapeType;
-    typedef typename CGP::GeoCells0 Cells0;
-    typedef typename CGP::GeoCells1 Cells1;
-    typedef typename CGP::GeoCell0 Cell0;
-    typedef typename CGP::GeoCell1 Cell1;
+    typedef typename CGP::Cells0 Cells0;
+    typedef typename CGP::Cells1 Cells1;
+    typedef typename CGP::Cell0 Cell0;
+    typedef typename CGP::Cell1 Cell1;
     typedef typename CGP::CellAdjacencyGraphVectorType CellAdjGraph;
 
     const size_t cellType = 1;
@@ -503,11 +503,11 @@ vigra::NumpyAnyArray  graphBiMean(
     typedef vigra::NumpyArray<1,float>  ResultArray;
     typedef typename ResultArray::difference_type ShapeType;
 
-    typedef typename CGP::GeoCells0 Cells0;
-    typedef typename CGP::GeoCells1 Cells1;
+    typedef typename CGP::Cells0 Cells0;
+    typedef typename CGP::Cells1 Cells1;
 
-    typedef typename CGP::GeoCell0 Cell0;
-    typedef typename CGP::GeoCell1 Cell1;
+    typedef typename CGP::Cell0 Cell0;
+    typedef typename CGP::Cell1 Cell1;
 
     const size_t numJunctions  = cgp.numCells(0);
     const size_t numBoundaries = cgp.numCells(1);
@@ -595,11 +595,11 @@ vigra::NumpyAnyArray  graphPropagation(
     typedef vigra::NumpyArray<1,float>  ResultArray;
     typedef typename ResultArray::difference_type ShapeType;
 
-    typedef typename CGP::GeoCells0 Cells0;
-    typedef typename CGP::GeoCells1 Cells1;
+    typedef typename CGP::Cells0 Cells0;
+    typedef typename CGP::Cells1 Cells1;
 
-    typedef typename CGP::GeoCell0 Cell0;
-    typedef typename CGP::GeoCell1 Cell1;
+    typedef typename CGP::Cell0 Cell0;
+    typedef typename CGP::Cell1 Cell1;
 
     const size_t numJunctions = cgp.numCells(0);
     const size_t numBoundaries     = cgp.numCells(1);
@@ -702,10 +702,10 @@ vigra::NumpyAnyArray  cell1GraphAdjAcc(
 
     typedef vigra::NumpyArray<2,float>  ResultArray;
     typedef typename ResultArray::difference_type ShapeType;
-    typedef typename CGP::GeoCells0 Cells0;
-    typedef typename CGP::GeoCells1 Cells1;
-    typedef typename CGP::GeoCell0 Cell0;
-    typedef typename CGP::GeoCell1 Cell1;
+    typedef typename CGP::Cells0 Cells0;
+    typedef typename CGP::Cells1 Cells1;
+    typedef typename CGP::Cell0 Cell0;
+    typedef typename CGP::Cell1 Cell1;
     typedef typename CGP::CellAdjacencyGraphVectorType CellAdjGraph;
 
     const size_t cellType = 1;
@@ -761,11 +761,11 @@ vigra::NumpyAnyArray  graphMax(
     typedef vigra::NumpyArray<1,float>  ResultArray;
     typedef typename ResultArray::difference_type ShapeType;
 
-    typedef typename CGP::GeoCells0 Cells0;
-    typedef typename CGP::GeoCells1 Cells1;
+    typedef typename CGP::Cells0 Cells0;
+    typedef typename CGP::Cells1 Cells1;
 
-    typedef typename CGP::GeoCell0 Cell0;
-    typedef typename CGP::GeoCell1 Cell1;
+    typedef typename CGP::Cell0 Cell0;
+    typedef typename CGP::Cell1 Cell1;
 
     const size_t numJunctions = cgp.numCells(0);
     const size_t numBoundaries     = cgp.numCells(1);
@@ -806,13 +806,13 @@ vigra::NumpyAnyArray cell1BoundsArray(
     typedef vigra::NumpyArray<2,int>  ResultArray;
     typedef typename ResultArray::difference_type ShapeType;
 
-    typedef typename CGP::GeoCells0 Cells0;
-    typedef typename CGP::GeoCells1 Cells1;
-    typedef typename CGP::GeoCells2 Cells2;
+    typedef typename CGP::Cells0 Cells0;
+    typedef typename CGP::Cells1 Cells1;
+    typedef typename CGP::Cells2 Cells2;
 
-    typedef typename CGP::GeoCell0 Cell0;
-    typedef typename CGP::GeoCell1 Cell1;
-    typedef typename CGP::GeoCell2 Cell2;
+    typedef typename CGP::Cell0 Cell0;
+    typedef typename CGP::Cell1 Cell1;
+    typedef typename CGP::Cell2 Cell2;
 
     const size_t numBoundaries = cgp.numCells(1);
     const size_t numRegion     = cgp.numCells(2);
@@ -1081,8 +1081,8 @@ vigra::NumpyAnyArray orientedWatershedTransform
     NumpyFloat1d resultWeights=NumpyFloat1d(ShapeType(numBoundaries));
 
     
-    typedef typename CGP::GeoCells1 Cells1;
-    typedef typename CGP::GeoCell1   Cell1;
+    typedef typename CGP::Cells1 Cells1;
+    typedef typename CGP::Cell1   Cell1;
 
     const Cells1 & cells1=cgp.geometry1();
 
@@ -1169,24 +1169,25 @@ void export_cgp2d()
     ////////////////////////////////////////
     // basic types
     // tgrid and input image type
-    typedef TopologicalGrid<vigra::UInt32> TopologicalGridType;
-    typedef  vigra::NumpyArray<2 ,vigra::Singleband < npy_uint32> > InputLabelImageType;
+    typedef TopologicalGrid<LabelType> TopologicalGridType;
+    typedef Cgp<LabelType,CoordinateType> CgpType;
+
+    typedef  vigra::NumpyArray<2 ,vigra::Singleband < LabelType > > InputLabelImageType;
     // cgp type and cell types
-    typedef Cgp<vigra::UInt32,vigra::UInt32> CgpType;
     typedef CgpType::PointType PointType;
     // bound vector
     typedef std::vector<float> FloatVectorType;
-    typedef std::vector<vigra::UInt32> LabelVectorType;
+    typedef std::vector<LabelType> LabelVectorType;
     // point vector
     typedef std::vector<PointType> PointVectorType;
     // geo cells 
-    typedef CgpType::GeoCell0 GeoCell0Type;
-    typedef CgpType::GeoCell1 GeoCell1Type;
-    typedef CgpType::GeoCell2 GeoCell2Type;
+    typedef CgpType::Cell0 Cell0Type;
+    typedef CgpType::Cell1 Cell1Type;
+    typedef CgpType::Cell2 Cell2Type;
 
-    typedef CgpType::GeoCells0 GeoCell0VectorType;
-    typedef CgpType::GeoCells1 GeoCell1VectorType;
-    typedef CgpType::GeoCells2 GeoCell2VectorType;
+    typedef CgpType::Cells0 Cell0VectorType;
+    typedef CgpType::Cells1 Cell1VectorType;
+    typedef CgpType::Cells2 Cell2VectorType;
 
     // cell vectors
     python::class_<TopologicalGridType>("TopologicalGrid",python::init<const InputLabelImageType & >())
@@ -1217,28 +1218,28 @@ void export_cgp2d()
 
     /*
     // cells
-    python::class_<GeoCell0Type>("Cell0",python::init<>())
-        .def(CellTypeSuite<GeoCell0Type>())
-        .def("getAngles",&getAngles<GeoCell0Type>,python::return_value_policy<python::manage_new_object>())
+    python::class_<Cell0Type>("Cell0",python::init<>())
+        .def(CellTypeSuite<Cell0Type>())
+        .def("getAngles",&getAngles<Cell0Type>,python::return_value_policy<python::manage_new_object>())
     ;
 
-    python::class_<GeoCell1Type>("Cell1",python::init<>())
-        .def(CellTypeSuite<GeoCell1Type>())
+    python::class_<Cell1Type>("Cell1",python::init<>())
+        .def(CellTypeSuite<Cell1Type>())
     ;
 
-    python::class_<GeoCell2Type>("Cell2",python::init<>())
-        .def(CellTypeSuite<GeoCell2Type>())
+    python::class_<Cell2Type>("Cell2",python::init<>())
+        .def(CellTypeSuite<Cell2Type>())
     ;
 
     // cells vectors
-    python::class_<GeoCell0VectorType>("Cell0Vector",init<>())
-        .def(vector_indexing_suite<GeoCell0VectorType >())
+    python::class_<Cell0VectorType>("Cell0Vector",init<>())
+        .def(vector_indexing_suite<Cell0VectorType >())
     ;
-    python::class_<GeoCell1VectorType>("Cell1Vector",init<>())
-        .def(vector_indexing_suite<GeoCell1VectorType >())
+    python::class_<Cell1VectorType>("Cell1Vector",init<>())
+        .def(vector_indexing_suite<Cell1VectorType >())
     ;
-    python::class_<GeoCell2VectorType>("Cell2Vector",init<>())
-        .def(vector_indexing_suite<GeoCell2VectorType >())
+    python::class_<Cell2VectorType>("Cell2Vector",init<>())
+        .def(vector_indexing_suite<Cell2VectorType >())
     ;
     */
 

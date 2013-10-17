@@ -7,6 +7,7 @@
 #include <vigra/numpy_array_converters.hxx>
 
 #include "cgp2d.hxx"
+#include "cgp2d_python.hxx"
 #include "py_cell_visitor.hxx"
 
 namespace cgp2d {
@@ -25,24 +26,24 @@ void export_cell1vec()
     ////////////////////////////////////////
     // basic types
     // tgrid and input image type
-    typedef TopologicalGrid<vigra::UInt32> TopologicalGridType;
-	typedef Cgp<vigra::UInt32,vigra::UInt32> CgpType;
+    typedef TopologicalGrid<LabelType> TopologicalGridType;
+    typedef Cgp<LabelType,CoordinateType> CgpType;
 
-    typedef  vigra::NumpyArray<2 ,vigra::Singleband < vigra::UInt32 > > InputLabelImageType;
+    typedef  vigra::NumpyArray<2 ,vigra::Singleband < LabelType > > InputLabelImageType;
     // cgp type and cell types
     typedef CgpType::PointType PointType;
     // bound vector
     typedef std::vector<float> FloatVectorType;
-    typedef std::vector<vigra::UInt32> LabelVectorType;
+    typedef std::vector<LabelType> LabelVectorType;
     // point vector
     typedef std::vector<PointType> PointVectorType;
     // geo cells 
-    typedef CgpType::GeoCell1 GeoCell1Type;
-    typedef CgpType::GeoCells1 GeoCell1VectorType;
+    typedef CgpType::Cell1 Cell1Type;
+    typedef CgpType::Cells1 Cell1VectorType;
 
     // cells vectors
-    python::class_<GeoCell1VectorType>("Cell1Vector",init<>())
-        .def(vector_indexing_suite<GeoCell1VectorType >())
+    python::class_<Cell1VectorType>("Cell1Vector",init<>())
+        .def(vector_indexing_suite<Cell1VectorType >())
     ;
 }
 
