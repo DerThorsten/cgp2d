@@ -5,6 +5,9 @@
 #include <vigra/numpy_array_converters.hxx>
 
 
+
+// basic cgp related stuff
+
 #include "cells/py_cell0.hxx"
 #include "cells/py_cell1.hxx"
 #include "cells/py_cell2.hxx"
@@ -15,11 +18,20 @@
 
 #include "py_cgp2d.hxx"
 
+
+// image processing / pixel wise stuff
+#include "image_processing/py_histogram.hxx"
+
+
 BOOST_PYTHON_MODULE_INIT(_cgp2d) {
     //using namespace boost::python;
     //using namespace vigra;
 
     vigra::import_vigranumpy();
+
+
+
+    // baisc cgp related data structures
     cgp2d::export_cgp2d();
     cgp2d::export_cell0();
     cgp2d::export_cell1();
@@ -28,4 +40,10 @@ BOOST_PYTHON_MODULE_INIT(_cgp2d) {
     cgp2d::export_cell0vec();
     cgp2d::export_cell1vec();
     cgp2d::export_cell2vec();
+
+
+    // image processing related functions and classes 
+    cgp2d::export_histogram();
+
+
 }

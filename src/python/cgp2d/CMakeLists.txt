@@ -5,6 +5,8 @@ include_directories(
 
 
 add_library(_cgp2d SHARED
+
+    # basic cgp related data structures
     cells/py_cell0.cxx
     cells/py_cell1.cxx
     cells/py_cell2.cxx
@@ -12,6 +14,9 @@ add_library(_cgp2d SHARED
     cells/py_cell1vec.cxx
     cells/py_cell2vec.cxx
     py_cgp2d.cxx
+
+    # image processing related 
+    image_processing/py_histogram.cxx
     py_main.cxx
 )
 target_link_libraries(_cgp2d
