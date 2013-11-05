@@ -30,28 +30,103 @@ namespace cgp2d {
 
 
 
-	vigra::NumpyAnyArray  colorHistogram(
-		vigra::NumpyArray<2, vigra::TinyVector< float  ,3 > > 	colorImage,
-		vigra::NumpyArray<1, vigra::TinyVector< float  ,3 > > 	binning,
-		vigra::TinyVector< float  ,3 > 							sigma
-	){
-		typedef vigra::MultiArray< 5, float  >  Image3dHistType;
-		typedef Image3dHistType::difference_type ShapeType;
+
+    vigra::NumpyAnyArray jointColorHistogram(
+
+        vigra::NumpyArray<2,  vigra::TinyVector<float,3>  >    img,
+        const vigra::TinyVector<float, 3> &                    min,
+        const vigra::TinyVector<float, 3> &                    max,
+        const vigra::TinyVector<float, 3> &                    bins,
+        const size_t                                           r,
+        //output
+        vigra::NumpyArray<5, float >                           res = vigra::NumpyArray<5, float >()
 
 
-		// allocate an explicit multidimensional hist
-		vigra::MultiArray< 5, float  >  image3dHist(
-			ShapeType(colorImage.shape(0),colorImage.shape(1),binning(0)[0],binning(1)[0],binning(2)[0]));
+    ){
+
+        // allocate output
+        typedef typename vigra::NumpyArray<5, float >::difference_type Shape5;
+        Shape5 shape(img.shape(0),img.shape(1),int(bins[0]),int(bins[1]),int(bins[2]));
+        res.reshapeIfEmpty(shape);
+        std::fill(res.begin(),res.end(),0.0);
+        // 
+        Shape5 histCoord;
+        const vigra::TinyVector<uint,  3>  ones(1,1,1);
+        const vigra::TinyVector<float, 2>  radius(r,r);
+        const vigra::TinyVector<float, 2>  radius1(r+1,r+1);
+        const vigra::TinyVector<float, 3>  fac = ( (bins-ones) / (max-min) );
 
 
-	}	
+        vigra::TinyVector<int,2>  start,end,c;
+
+        for(histCoord[0]=0;histCoord[0]<img.shape(0);++histCoord[0])
+        for(histCoord[1]=0;histCoord[1]<img.shape(1);++histCoord[1]){
+
+
+            for(int d=0;d<2;++d){
+                start[d]   = std::max(int(0),            int(histCoord[d]) - int(r));
+                end[d]     = std::min(int(img.shape(d)), int(histCoord[d] + (r+1) )); 
+            }
+
+            const float c=counter;
+
+            for(c[0]=start[0];c[0]<end[0];++c[0])
+            for(c[1]=start[1];c[1]<end[1];++c[1]){
+
+                
+                // get the pixel value at c
+                vigra::TinyVector<float, 3>  pixelValue = img(c[0],c[1]);
+                pixelValue -= min;
+                pixelValue *= fac;
+
+                // (the first two coordinates of hist coord are filled)
+                histCoord[2]=int(pixelValue[0]);
+                histCoord[3]=int(pixelValue[1]);
+                histCoord[4]=int(pixelValue[2]);
+
+
+                CGP_ASSERT_OP(histCoord[0],<,img.shape(0));
+                CGP_ASSERT_OP(histCoord[1],<,img.shape(1));
+
+                CGP_ASSERT_OP(histCoord[2],<,bins[0]);
+                CGP_ASSERT_OP(histCoord[3],<,bins[1]);
+                CGP_ASSERT_OP(histCoord[4],<,bins[2]);
+
+                // increment counter
+                res(histCoord[0],histCoord[1],histCoord[2],histCoord[3],histCoord[4])+=1.0;
+                ++counter;
+            }   
+
+
+            for(c[0]=start[0];c[0]<end[0];++c[0])
+            for(c[1]=start[1];c[1]<end[1];++c[1])
+                // increment counter
+                res(histCoord[0],histCoord[1],histCoord[2],histCoord[3],histCoord[4])/=counter;
+            }   
 
 
 
-	void export_histogram(){
+        }   
 
-		python::def("colorHistogram", vigra::registerConverters( &colorHistogram) );
 
-	}
+        return res;
+    }
+
+
+
+
+    void export_histogram(){
+
+        python::def("jointColorHistogram",vigra::registerConverters(&jointColorHistogram),
+            (
+                python::arg("img"),
+                python::arg("min"),
+                python::arg("max"),
+                python::arg("bins"),
+                python::arg("out")=python::object()
+            )
+        );
+
+    }
 
 }
