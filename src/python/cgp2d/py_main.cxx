@@ -27,6 +27,10 @@ BOOST_PYTHON_MODULE_INIT(_cgp2d) {
     //using namespace boost::python;
     //using namespace vigra;
 
+
+    import_array();
+    //boost::python::array::set_module_and_type("numpy", "ndarray");
+
     vigra::import_vigranumpy();
 
 

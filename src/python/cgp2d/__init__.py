@@ -778,6 +778,19 @@ def visualize(
         img[whereEdges[0],whereEdges[1],2]=resImg[whereEdges[0],whereEdges[1]]
         """
 
+    elif edge_data is None :
+      labelImage=cgp.tgrid.labelGrid(2,False)
+
+      cedge     = vigra.analysis.regionImageToCrackEdgeImage(numpy.require(labelImage,dtype=numpy.uint32))
+
+      #cedge[cedge!=0]=0
+      whereEdges=numpy.where(cedge==0)
+
+      img/=255
+      img[whereEdges[0],whereEdges[1],0]=0.0
+      img[whereEdges[0],whereEdges[1],1]=0.0
+      img[whereEdges[0],whereEdges[1],2]=0.0
+
     else :
         img/=255
         #img[whereEdges[0],whereEdges[1],0]=0.0

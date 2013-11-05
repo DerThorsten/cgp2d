@@ -110,6 +110,13 @@ public:
     const std::vector<LabelType> & bounds()const{
         return bounds_;
     }
+
+    std::vector<LabelType> & __bounds__(){
+        return bounds_;
+    }
+
+
+
     const std::vector<LabelType> & boundedBy()const{
         return boundedBy_;
     }

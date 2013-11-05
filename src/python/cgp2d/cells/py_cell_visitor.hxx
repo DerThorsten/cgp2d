@@ -3,7 +3,8 @@
 
 #define PY_ARRAY_UNIQUE_SYMBOL superimg_PyArray_API
 #define NO_IMPORT_ARRAY
-
+#include <boost/python/detail/wrap_python.hpp>
+#include <boost/python.hpp>
 #include <string>
 #include <cmath>
 
@@ -12,7 +13,23 @@
 #include <vigra/numpy_array_converters.hxx>
 
 #include "cgp2d.hxx"
+#include "cgp2d_python.hxx"
 
+#include <boost/python/detail/wrap_python.hpp>
+#include <boost/python.hpp>
+
+#include <sstream>
+//#include <Python.h>
+#include <numpy/arrayobject.h>
+
+#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
+
+/*
+#include <numpy/noprefix.h>
+#ifdef UInt32
+#undef UInt32
+#endif 
+*/
 
 
 namespace cgp2d {
@@ -25,7 +42,7 @@ namespace python = boost::python;
 template<class CELL>
 python::tuple pointNumpyTupel(const CELL & cell){
     const size_t numPoints=cell.points().size();
-    typedef vigra::NumpyArray<1,vigra::UInt32>  SingleCoordArrayType;
+    typedef vigra::NumpyArray<1, vigra::UInt32 >  SingleCoordArrayType;
     typedef typename SingleCoordArrayType::difference_type ShapeType;
     const ShapeType shape(numPoints);
 
@@ -93,6 +110,10 @@ public:
             .def("centerPoint",&CellType::centerCoordinate,python::return_value_policy<python::return_by_value>() )
             .def("boundingBox",&boundingBox)
             .def("pointArray",vigra::registerConverters(&pointNumpyTupel<CellType>))
+            .def("boundView",&boundView
+                ,  
+                python::with_custodian_and_ward_postcall<0,1>() 
+            )
         ;
     }
 
@@ -100,7 +121,13 @@ public:
         std::pair<PointType,PointType> point=cell.boundingBox();
         return python::make_tuple(point.first,point.second);
     }
-    //static void bar(X& self);
+    
+
+    static boost::python::object   boundView(CellType & cell){
+        LabelType  * ptr = & cell.__bounds__()[0];
+        return numpyView1d(ptr,cell.bounds().size(),false);
+    }
+
 };
 
 
