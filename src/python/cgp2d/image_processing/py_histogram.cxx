@@ -68,7 +68,6 @@ namespace cgp2d {
                 end[d]     = std::min(int(img.shape(d)), int(histCoord[d] + (r+1) )); 
             }
 
-            const float c=counter;
 
             for(c[0]=start[0];c[0]<end[0];++c[0])
             for(c[1]=start[1];c[1]<end[1];++c[1]){
@@ -94,24 +93,33 @@ namespace cgp2d {
 
                 // increment counter
                 res(histCoord[0],histCoord[1],histCoord[2],histCoord[3],histCoord[4])+=1.0;
-                ++counter;
             }   
-
-
-            for(c[0]=start[0];c[0]<end[0];++c[0])
-            for(c[1]=start[1];c[1]<end[1];++c[1])
-                // increment counter
-                res(histCoord[0],histCoord[1],histCoord[2],histCoord[3],histCoord[4])/=counter;
-            }   
-
-
-
         }   
+
+        // normalizes
+        for(histCoord[0]=0;histCoord[0]<img.shape(0);++histCoord[0])
+        for(histCoord[1]=0;histCoord[1]<img.shape(1);++histCoord[1]){
+
+            float sum=0;
+
+            for(histCoord[2]=0;histCoord[2]<res.shape(2);++histCoord[2])
+            for(histCoord[3]=0;histCoord[3]<res.shape(3);++histCoord[3])
+            for(histCoord[4]=0;histCoord[4]<res.shape(4);++histCoord[4]){
+
+                sum+=res(histCoord[0],histCoord[1],histCoord[2],histCoord[3],histCoord[4]);
+            }
+            for(histCoord[2]=0;histCoord[2]<res.shape(2);++histCoord[2])
+            for(histCoord[3]=0;histCoord[3]<res.shape(3);++histCoord[3])
+            for(histCoord[4]=0;histCoord[4]<res.shape(4);++histCoord[4]){
+
+                res(histCoord[0],histCoord[1],histCoord[2],histCoord[3],histCoord[4])/=sum;
+            }
+        }
+
 
 
         return res;
     }
-
 
 
 

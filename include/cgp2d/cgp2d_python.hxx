@@ -6,7 +6,7 @@
 #include <boost/python.hpp>
 
 #include <sstream>
-//#include <Python.h>
+#include <Python.h>
 #include <numpy/arrayobject.h>
 
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
@@ -93,7 +93,7 @@ namespace cgp2d{
 
 	    	//boost::python::numeric::array boostArray=boost::python::extract<boost::python::numeric::array > (    boost::python::object(boost::python::handle<>(pyobj))   );
 
-	    	PyArray_CLEARFLAGS( reinterpret_cast<PyArrayObject *>(pyobj), NPY_ARRAY_WRITEABLE);
+	    	//PyArray_CLEARFLAGS( reinterpret_cast<PyArrayObject *>(pyobj), NPY_ARRAY_WRITEABLE);
 		}
 
 	    //return pyobj;
