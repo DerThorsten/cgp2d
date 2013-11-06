@@ -3,6 +3,20 @@ import numpy
 import vigra
 #from featurecalc import emd as earthmd
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def gaussianSmoothing1d(histograms,sigma):
   nHist = histograms.shape[0]
   nBins = histograms.shape[1]
