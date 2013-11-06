@@ -121,7 +121,60 @@ namespace cgp2d {
         return res;
     }
 
+    vigra::NumpyArray histogramm(
+        vigra::NumpyArray<3, float  >   img,
+        vigra::NumpyArray<1, float  >   min,
+        vigra::NumpyArray<1, float  >   max
+        const size_t                    bins,
+        const size_t                    r,
+        //output
+        vigra::NumpyArray<4, float >    res = vigra::NumpyArray<5, float >()
+    ){ 
+        const size_t nChannels=img.shape(2);
+        // allocate output
+        typedef typename vigra::NumpyArray<4, float >::difference_type Shape4;
+        Shape4 shape(img.shape(0),img.shape(1),nChannels,bins);
+        res.reshapeIfEmpty(shape);
+        std::fill(res.begin(),res.end(),0.0);
 
+
+        // coordinate in the res array (pixel wise histogram)
+        // (x,y,c,bin)
+        Shape4 histCoord;
+        const vigra::TinyVector<float, 2>  radius1(r+1,r+1);
+        // channel wise factor
+        std::vector<float> fac(nChannels)
+        for(size_t c=0;c<nChannels;++c){
+            fac[c]= float(bins-1) / (max(c),min(c)); 
+        }
+
+
+        vigra::TinyVector<int,2>  start,end,c;
+
+        for(histCoord[0]=0;histCoord[0]<img.shape(0);++histCoord[0])
+        for(histCoord[1]=0;histCoord[1]<img.shape(1);++histCoord[1]){
+
+
+            for(int d=0;d<2;++d){
+                start[d]   = std::max(int(0),            int(histCoord[d]) - int(r));
+                end[d]     = std::min(int(img.shape(d)), int(histCoord[d] + (r+1) )); 
+            }
+
+
+            for(c[0]=start[0];c[0]<end[0];++c[0])
+            for(c[1]=start[1];c[1]<end[1];++c[1]){
+
+                // iterate over all channels
+                for(histCoord[2]=0;histCoord[2]<nChannel;++histCoord[2] ){
+
+                    const float value = img(histCoord[0],histCoord[1],histCoord[2]);
+                    histCoord[3] = (value - min(histCoord[2]) )*fac[histCoord[2]];
+                }
+            }
+        }
+
+
+    }
 
     void export_histogram(){
 
