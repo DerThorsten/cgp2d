@@ -1,6 +1,8 @@
 from _cgp2d import *
 import numpy
 import vigra
+from scipy.sparse import coo_matrix
+import scipy
 #from featurecalc import emd as earthmd
 
 def gaussianSmoothing1d(histograms,sigma):
@@ -310,6 +312,32 @@ class more_cgp(injector_more_cgp, Cgp):
       return self.owt(numpy.require(pixelWiseAngles,dtype=numpy.float32))
 
 
+
+    def sparseAdjacencyMatrix(self):
+      cell1Bounds=self.cell1BoundsArray()-1
+
+
+      def unique_rows(a):
+        a = numpy.ascontiguousarray(a)
+        unique_a = numpy.unique(a.view([('', a.dtype)]*a.shape[1]))
+        return unique_a.view(a.dtype).reshape((unique_a.shape[0], a.shape[1]))
+
+      cell1Bounds = unique_rows(cell1Bounds.T).T
+
+      row  = numpy.hstack([ cell1Bounds[:,0], cell1Bounds[:,1] ,numpy.arange(self.numCells(2))])
+      col  = numpy.hstack([ cell1Bounds[:,1], cell1Bounds[:,0] ,numpy.arange(self.numCells(2))])
+
+      
+
+
+
+      print ""
+
+      data = numpy.ones(len(col))
+      cm =  coo_matrix((data, (row,col)), shape=[self.numCells(2)]*2 )
+      cm = scipy.sparse.csr_matrix(cm)
+
+      return cm
 
     def cell2ToCell1Feature(self,regionFeatures,mode='chi2',dtype=numpy.float32):
       mode = mode.lower()
