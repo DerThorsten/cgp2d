@@ -1,21 +1,81 @@
 from _cgp2d import *
 import numpy
+import numpy.linalg
 import vigra
 from scipy.sparse import coo_matrix
 import scipy
 #from featurecalc import emd as earthmd
 
 
+from scipy import sparse
 
 
 
 
 
+def regionAffinity(labelings,out=None):
+  nRegion    = labelings.shape[1]
+  nLabelings = labelings.shape[1]
+
+  nLabels    = numpy.max(labelings,axis=1)
+
+  l  = numpy.require(labelings,dtype=numpy.uint64)
+  nl = numpy.require(labelings,dtype=numpy.uint64)
+
+  return _regionAffinity(l,nl,out)
 
 
 
 
 
+def affinityDiffusion(W,tMax,sparse=True,visitor=None):
+    n = W.shape[0]
+
+    
+    
+    if sparse:
+        W0=sparse.coo_matrix(W)
+        # setup d
+        diagonals = [[1,2,3,4], [1,2,3], [1,2]]
+        D         = diags([numpy.sum(W,axis=1)], [0])
+        invertedD = scipy.sparse.linalg.inv(D)
+
+        # compute smoothing kernel
+        P = invertedD.dot(W0)
+
+        # eye
+        I = sparse.eye(n)
+
+        for t in range(tMax):
+            W1 = W0.dot(P) + I
+            W0 = W1.copy()
+
+        return W1.todense()*invertedD.todense()
+    else :
+        # set up D
+        D = numpy.zeros([n,n])
+        numpy.fill_diagonal(D,numpy.sum(W,axis=1))
+
+        invertedD = numpy.linalg.inv(D)
+
+        # compute smoothing kernel
+        P = numpy.dot(invertedD , W )
+
+        # iterate
+        W0 = W.copy()
+        W1 = W.copy()
+
+        
+        I =  numpy.eye(n)
+        for t in range(tMax):
+            W1[:,:] = numpy.dot(W0,P) + I
+            W0[:,:] = W1[:,:]
+
+            if visitor is not None:
+                exit = visitor(W1)
+
+
+        return W1*invertedD
 
 
 
@@ -345,7 +405,7 @@ class more_cgp(injector_more_cgp, Cgp):
 
 
 
-      print ""
+      #print ""
 
       data = numpy.ones(len(col))
       cm =  coo_matrix((data, (row,col)), shape=[self.numCells(2)]*2 )

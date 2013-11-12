@@ -16,7 +16,7 @@ add_library(_cgp2d SHARED
     py_cgp2d.cxx
 
     # image processing related 
-    image_processing/py_histogram.cxx
+    misc/py_segcompare.cxx
     py_main.cxx
 )
 target_link_libraries(_cgp2d

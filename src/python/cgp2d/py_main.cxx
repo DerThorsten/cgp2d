@@ -19,8 +19,8 @@
 #include "py_cgp2d.hxx"
 
 
-// image processing / pixel wise stuff
-#include "image_processing/py_histogram.hxx"
+// misc
+#include "misc/py_segcompare.hxx"
 
 
 BOOST_PYTHON_MODULE_INIT(_cgp2d) {
@@ -47,7 +47,7 @@ BOOST_PYTHON_MODULE_INIT(_cgp2d) {
 
 
     // image processing related functions and classes 
-    cgp2d::export_histogram();
+    cgp2d::export_segcompare();
 
 
 }
