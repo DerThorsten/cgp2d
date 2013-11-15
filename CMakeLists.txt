@@ -36,13 +36,14 @@ FIND_PACKAGE(PythonInterp)
 find_package(Boost COMPONENTS python REQUIRED)
 find_package(VIGRA REQUIRED)
 find_package (PythonLibs REQUIRED)
+find_package (NUMPY REQUIRED)
 
 
 #--------------------------------------------------------------
 # global headers
 #--------------------------------------------------------------
 file(GLOB_RECURSE headers include/*.hxx)
-include_directories(include)
+include_directories(include PYTHON_NUMPY_INCLUDE_DIR)
 
 
 
