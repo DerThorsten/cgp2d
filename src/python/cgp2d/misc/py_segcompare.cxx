@@ -35,7 +35,7 @@ namespace cgp2d {
         vigra::NumpyArray<2, vigra::Multiband<vigra::UInt64>  >   labelings,
         vigra::NumpyArray<1, vigra::UInt64>                       nLabels,                      
         //output
-        vigra::NumpyArray<2, float >    res = vigra::NumpyArray<4, float >()
+        vigra::NumpyArray<2, float >    res 
     ){ 
         const size_t nSeg = labelings.shape(1);
         const size_t nReg = labelings.shape(1);
